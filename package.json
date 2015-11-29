@@ -1,0 +1,24 @@
+{
+  "name": "trailpack-waterline",
+  "version": "0.0.0",
+  "description": "Waterline Trailpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trailsjs/trailpack-waterline.git"
+  },
+  "keywords": [
+    "trails",
+    "trailsjs",
+    "waterline"
+  ],
+  "author": "Travis Webb <me@traviswebb.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trailsjs/trailpack-waterline/issues"
+  },
+  "homepage": "https://github.com/trailsjs/trailpack-waterline#readme"
+}
