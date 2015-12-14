@@ -1,3 +1,9 @@
+const _ = require('lodash')
+
+/**
+ * Trails Service that maps abstract ORM methods to their respective Waterine
+ * methods. All methods return native ES6 Promises.
+ */
 const FootprintService = module.exports = {
 
   /**
@@ -9,23 +15,13 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   create (modelName, values) {
-    let Model = this.api.models[modelName]
-    return Model.create(values)
+    const Model = this.api.models[modelName]
+
+    return new Promise((resolve, reject) => {
+      Model.create(values).then(resolve).catch(reject)
+    })
   },
   
-  /**
-   * Create a model, with provided id
-   *
-   * @param modelName The name of the model to create
-   * @param values The model's values
-   * @param id to assign to the model
-   * @return Promise
-   */
-  createWithId (modelName, values, id) {
-    let Model = this.api.models[modelName]
-
-  },
-
   /**
    * Find all models that satisfy the given criteria
    *
@@ -34,8 +30,20 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   find (modelName, criteria) {
-    let Model = this.api.models[modelName]
+    const Model = this.api.models[modelName]
+    const modelOptions = this.config.footprints.models.options
 
+    let query = Model.find(_.defaults(criteria, {
+      limit: modelOptions.defaultLimit
+    })
+
+    if (modelOptions.populate === true) {
+      query = query.populateAll()
+    }
+
+    return new Promise((resolve, reject) => {
+      query.then(resolve).catch(reject)
+    })
   },
 
   /**
@@ -46,8 +54,9 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   findOne (modelName, id) {
-    let Model = this.api.models[modelName]
+    const Model = this.api.models[modelName]
 
+    return FootprintService.find({ id: id })
   },
 
   /**
@@ -59,9 +68,17 @@ const FootprintService = module.exports = {
    * @param [id] A optional model id; overrides "criteria" if both are specified.
    * @return Promise
    */
-  update (modelName, criteria, values, id) {
-    let Model = this.api.models[modelName]
+  update (modelName, criteria, values) {
+    const Model = this.api.models[modelName]
+    const modelOptions = this.config.footprints.models.options
 
+    return new Promise((resolve, reject) => {
+      Model.update(_.defaults(criteria, {
+          limit: modelOptions.defaultLimit
+        }))
+        .then(resolve)
+        .catch(reject)
+    })
   },
 
   /*
@@ -69,12 +86,17 @@ const FootprintService = module.exports = {
    *
    * @param modelName The name of the model
    * @param criteria The criteria that determine which models are to be updated
-   * @param [id] A optional model id; overrides "criteria" if both are specified.
    * @return Promise
    */
-  destroy (modelName, criteria, id) {
-    let Model = this.api.models[modelName]
+  destroy (modelName, criteria) {
+    const Model = this.api.models[modelName]
+    const modelOptions = this.config.footprints.models.options
 
+    return new Promise((resolve, reject) => {
+      Model.destroy(criteria)
+        .then(resolve)
+        .catch(reject)
+    })
   },
 
   /**
@@ -87,26 +109,11 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   createAssociation (parentModelName, parentId, childAttributeName, values) {
-    let ParentModel = this.api.models[parentModelName]
-    let ChildModel = ParentModel.attributes[childAttributeName].
-    return FootprintService.create(
+    const childAttribute = this.api.models[parentModelName].attributes[childAttributeName]
+    const childModelName = childAttribute.model || childAttribute.collection
+    const mergedValues = _.extend({ [childAttribute.via]: parentId }, values)
 
-  },
-
-  /**
-   * Create a model, assign it the given id, and associate it with its parent
-   * model.
-   *
-   * @param parentModelName The name of the model's parent
-   * @param childAttributeName The name of the model to create
-   * @param parentId The id (required) of the parent model
-   * @param childId The id (required) of the child model
-   * @param values The model's values
-   * @return Promise
-   */
-  createAssociationWithId (parentModelName, parentId, childAttributeName, childId, values) {
-    let Model = this.api.models[childAttributeName]
-
+    return FootprintService.create(childModelName, mergedValues)
   },
 
   /**
@@ -120,28 +127,15 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   findAssociation (parentModelName, parentId, childAttributeName, criteria) {
-    let Model = this.api.models[childAttributeName]
+    const childAttribute = this.api.models[parentModelName].attributes[childAttributeName]
+    const childModelName = childAttribute.model || childAttribute.collection
+    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
 
+    return FootprintService.find(childModelName, mergedCriteria)
   },
 
   /**
-   * Find a particular model by id, and which is associated with the given
-   * Parent Model.
-   *
-   * @param parentModelName The name of the model's parent
-   * @param parentId The id (required) of the parent model
-   * @param childAttributeName The name of the model to create
-   * @param childId The id of the model
-   * @param criteria The search criteria
-   * @return Promise
-   */
-  findOneAssociation (parentModelName, parentId, childAttributeName, childId) {
-    let Model = this.api.models[childAttributeName]
-
-  },
-
-  /**
-   * Find a particular model by id, and which is associated with the given
+   * Update a particular model by id, and which is associated with the given
    * Parent Model.
    *
    * @param parentModelName The name of the model's parent
@@ -151,12 +145,15 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   updateAssociation (parentModelName, parentId, childAttributeName, criteria, values) {
-    let Model = this.api.models[childAttributeName]
+    const childAttribute = this.api.models[parentModelName].attributes[childAttributeName]
+    const childModelName = childAttribute.model || childAttribute.collection
+    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
 
+    return FootprintService.update(childModelName, mergedCriteria, values)
   },
 
   /**
-   * Find a particular model by id, and which is associated with the given
+   * Destroy a particular model by id, and which is associated with the given
    * Parent Model.
    *
    * @param parentModelName The name of the model's parent
@@ -166,7 +163,11 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   destroyAssociation (parentModelName, parentId, childAttributeName, childId) {
-    let Model = this.api.models[childAttributeName]
+    const childAttribute = this.api.models[parentModelName].attributes[childAttributeName]
+    const childModelName = childAttribute.model || childAttribute.collection
+    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
 
+    return FootprintService.find(childModelName, mergedCriteria)
   }
 }
+

@@ -10,6 +10,10 @@ const _ = require('lodash')
  */
 module.exports = class Waterline extends Trailpack {
   constructor (app, config) {
-    super(app, require('./config'), require('./api'))
+    super(app, {
+      config: require('./config'),
+      api: require('./api'),
+      pkg: require('./package')
+    })
   }
 }
