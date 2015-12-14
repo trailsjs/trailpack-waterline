@@ -2,7 +2,8 @@ const _ = require('lodash')
 
 /**
  * Trails Service that maps abstract ORM methods to their respective Waterine
- * methods. All methods return native ES6 Promises.
+ * methods. This service can be thought of as an "adapter" between trails and
+ * Waterline. All methods return native ES6 Promises.
  */
 const FootprintService = module.exports = {
 
@@ -21,9 +22,10 @@ const FootprintService = module.exports = {
       Model.create(values).then(resolve).catch(reject)
     })
   },
-  
+
   /**
-   * Find all models that satisfy the given criteria
+   * Find all models that satisfy the given criteria. If a primary key is given,
+   * the return value will be a single Object instead of an Array.
    *
    * @param modelName The name of the model
    * @param criteria The criteria that filter the model resultset
@@ -32,10 +34,16 @@ const FootprintService = module.exports = {
   find (modelName, criteria) {
     const Model = this.api.models[modelName]
     const modelOptions = this.config.footprints.models.options
+    let query
 
-    let query = Model.find(_.defaults(criteria, {
-      limit: modelOptions.defaultLimit
-    }))
+    if (_.isPlainObject(criteria)) {
+      query = Model.find(_.defaults(criteria, {
+        limit: modelOptions.defaultLimit
+      }))
+    }
+    else {
+      query = Model.findOne(criteria)
+    }
 
     if (modelOptions.populate === true) {
       query = query.populateAll()
@@ -44,19 +52,6 @@ const FootprintService = module.exports = {
     return new Promise((resolve, reject) => {
       query.then(resolve).catch(reject)
     })
-  },
-
-  /**
-   * Find a particular (single) model by id
-   *
-   * @param modelName The name of the model
-   * @param id The id of the model to return
-   * @return Promise
-   */
-  findOne (modelName, id) {
-    const Model = this.api.models[modelName]
-
-    return FootprintService.find({ id: id })
   },
 
   /**
@@ -90,7 +85,6 @@ const FootprintService = module.exports = {
    */
   destroy (modelName, criteria) {
     const Model = this.api.models[modelName]
-    const modelOptions = this.config.footprints.models.options
 
     return new Promise((resolve, reject) => {
       Model.destroy(criteria)
@@ -165,9 +159,8 @@ const FootprintService = module.exports = {
   destroyAssociation (parentModelName, parentId, childAttributeName, childId) {
     const childAttribute = this.api.models[parentModelName].attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
 
-    return FootprintService.find(childModelName, mergedCriteria)
+    return FootprintService.destroy(childModelName, childId)
   }
 }
 

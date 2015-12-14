@@ -23,7 +23,8 @@
   "homepage": "https://github.com/trailsjs/trailpack-waterline#readme",
   "devDependencies": {
     "eslint": "^1.10.3",
-    "eslint-config-trails": "0.0.9"
+    "eslint-config-trails": "0.0.9",
+    "mocha": "^2.3.4"
   },
   "eslintConfig": {
     "extends": "trails"
