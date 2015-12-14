@@ -1,7 +1,6 @@
 'use strict'
 
 const Trailpack = require('trailpack')
-const _ = require('lodash')
 
 /**
  * Waterline Trailpack

@@ -35,7 +35,7 @@ const FootprintService = module.exports = {
 
     let query = Model.find(_.defaults(criteria, {
       limit: modelOptions.defaultLimit
-    })
+    }))
 
     if (modelOptions.populate === true) {
       query = query.populateAll()

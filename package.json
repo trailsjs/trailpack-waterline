@@ -4,7 +4,7 @@
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint . && mocha"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/trailsjs/trailpack-waterline/issues"
   },
-  "homepage": "https://github.com/trailsjs/trailpack-waterline#readme"
+  "homepage": "https://github.com/trailsjs/trailpack-waterline#readme",
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-trails": "0.0.9"
+  },
+  "eslintConfig": {
+    "extends": "trails"
+  }
 }
