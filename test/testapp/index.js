@@ -12,7 +12,7 @@ module.exports = {
     database: {
       stores: {
         teststore: {
-          adapter: require('waterline-sqlite3'),
+          adapter: require('waterline-sqlite3')
         },
         storeoverride: {
           adapter: require('waterline-sqlite3'),

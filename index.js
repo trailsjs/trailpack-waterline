@@ -13,7 +13,7 @@ const lib = require('./lib')
  *
  * @see {@link https://github.com/balderdashy/sails/blob/master/lib/hooks/orm/build-orm.js}
  */
-module.exports = class Waterline extends Trailpack {
+module.exports = class WaterlinePack extends Trailpack {
   constructor (app, config) {
     super(app, {
       config: require('./config'),
