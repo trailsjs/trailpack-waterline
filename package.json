@@ -28,5 +28,8 @@
   },
   "eslintConfig": {
     "extends": "trails"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
   }
 }
