@@ -4,7 +4,7 @@
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
-    "test": "eslint . && mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,16 @@
   "devDependencies": {
     "eslint": "^1.10.3",
     "eslint-config-trails": "0.0.9",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "waterline-sqlite3": "^0.12.4"
   },
   "eslintConfig": {
     "extends": "trails"
   },
   "dependencies": {
-    "lodash": "^3.10.1"
+    "hoek": "^3.0.4",
+    "joi": "^7.0.1",
+    "lodash": "^3.10.1",
+    "waterline": "^0.10.28"
   }
 }
