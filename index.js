@@ -41,11 +41,15 @@ module.exports = class WaterlinePack extends Trailpack {
     this.adapters = lib.Transformer.transformAdapters(this.app)
     this.connections = lib.Transformer.transformConnections(this.app)
 
-    _.map(this.app.api.models, model => {
+    _.map(this.models, model => {
       this.wl.loadCollection(Waterline.Collection.extend(model))
     })
   }
 
+  /**
+   * Initialize Waterline. This will compile the schema and connect to the
+   * database.
+   */
   initialize () {
     const wlConfig = { adapters: this.adapters, connections: this.connections }
     return new Promise((resolve, reject) => {
