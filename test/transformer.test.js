@@ -2,10 +2,10 @@ const assert = require('assert')
 const app = require('./testapp')
 const lib = require('../lib')
 
-describe('lib.Transforms', () => {
+describe('lib.Transformer', () => {
   describe('#transformModels', () => {
     it('should augment the models with identity and globalId', () => {
-      const models = lib.Transforms.transformModels(app)
+      const models = lib.Transformer.transformModels(app)
 
       assert(models.User)
       assert.equal(models.User.identity, 'user')
@@ -18,7 +18,7 @@ describe('lib.Transforms', () => {
       assert.equal(models.Role.migrate, 'alter')
     })
     it('should correctly set the connection', () => {
-      const models = lib.Transforms.transformModels(app)
+      const models = lib.Transformer.transformModels(app)
 
       assert.equal(models.User.connection, 'teststore')
       assert.equal(models.Role.connection, 'storeoverride')
@@ -27,7 +27,7 @@ describe('lib.Transforms', () => {
 
   describe('#transformAdapters', () => {
     it('should transform adapters correctly', () => {
-      const adapters = lib.Transforms.transformAdapters(app)
+      const adapters = lib.Transformer.transformAdapters(app)
 
       assert(adapters['waterline-sqlite3'])
       assert(adapters['waterline-sqlite3'].registerConnection)
@@ -36,7 +36,7 @@ describe('lib.Transforms', () => {
 
   describe('#transformConnections', () => {
     it('should transform properly', () => {
-      const connections = lib.Transforms.transformConnections(app)
+      const connections = lib.Transformer.transformConnections(app)
 
       assert(connections.teststore)
       assert.equal(connections.storeoverride.adapter, 'waterline-sqlite3')
