@@ -34,12 +34,17 @@ describe('Trailpack', () => {
     beforeEach(() => {
       pack = new Pack(require('./testapp'))
       pack.configure()
-      console.log(pack.models)
       return pack.initialize()
     })
 
     it('should expose the "orm" property', () => {
       assert(pack.orm)
+      assert(pack.orm.collections.user)
+      assert(pack.orm.collections.role)
+    })
+
+    it('should be able to query things', () => {
+      const User = pack.orm.
     })
 
   })
