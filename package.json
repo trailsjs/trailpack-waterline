@@ -1,6 +1,6 @@
 {
   "name": "trailpack-waterline",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
