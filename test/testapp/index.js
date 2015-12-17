@@ -4,7 +4,10 @@ module.exports = {
       User: { },
       Role: {
         store: 'storeoverride',
-        migrate: 'alter'
+        migrate: 'drop',
+        attributes: {
+          name: 'string'
+        }
       }
     }
   },
@@ -21,7 +24,7 @@ module.exports = {
       },
       models: {
         defaultStore: 'teststore',
-        migrate: 'safe'
+        migrate: 'drop'
       }
     }
   }

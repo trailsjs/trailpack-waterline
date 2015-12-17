@@ -31,7 +31,7 @@ describe('Trailpack', () => {
   })
   describe('#initialize', () => {
     let pack
-    beforeEach(() => {
+    before(() => {
       pack = new Pack(require('./testapp'))
       pack.configure()
       return pack.initialize()
@@ -44,7 +44,24 @@ describe('Trailpack', () => {
     })
 
     it('should be able to query things', () => {
-      const User = pack.orm.
+      const Role = pack.orm.collections.role
+      return Role.find().then(results => {
+        assert(results)
+        assert.equal(results.length, 0)
+      })
+    })
+    it('should be able to insert things', () => {
+      const Role = pack.orm.collections.role
+      return Role.create({ name: 'foo' })
+        .then(role => {
+          assert(role)
+          assert.equal(role.name, 'foo')
+
+          return Role.find()
+        })
+        .then(roles => {
+          assert.equal(roles.length, 1)
+        })
     })
 
   })

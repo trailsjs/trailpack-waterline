@@ -10,12 +10,12 @@ describe('lib.Transformer', () => {
       assert(models.User)
       assert.equal(models.User.identity, 'user')
       assert.equal(models.User.globalId, 'User')
-      assert.equal(models.User.migrate, 'safe')
+      assert.equal(models.User.migrate, 'drop')
 
       assert(models.Role)
       assert.equal(models.Role.identity, 'role')
       assert.equal(models.Role.globalId, 'Role')
-      assert.equal(models.Role.migrate, 'alter')
+      assert.equal(models.Role.migrate, 'drop')
     })
     it('should correctly set the connection', () => {
       const models = lib.Transformer.transformModels(app)
