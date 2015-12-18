@@ -57,6 +57,7 @@ module.exports = class WaterlinePack extends Trailpack {
         if (err) return reject(err)
 
         this.orm = orm
+        this.app.orm = lib.Transformer.transformWaterlineOrm(this.orm)
         resolve()
       })
     })

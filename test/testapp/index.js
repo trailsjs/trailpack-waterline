@@ -1,12 +1,24 @@
 module.exports = {
   api: {
     models: {
-      User: { },
+      User: {
+        attributes: {
+          roles: {
+            collection: 'Role',
+            via: 'user'
+          }
+        }
+      },
       Role: {
         store: 'storeoverride',
         migrate: 'drop',
         attributes: {
-          name: 'string'
+          name: 'string',
+          user: {
+            collection: 'User',
+            via: 'roles',
+            dominant: true
+          }
         }
       }
     }

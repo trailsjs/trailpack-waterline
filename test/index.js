@@ -37,10 +37,18 @@ describe('Trailpack', () => {
       return pack.initialize()
     })
 
-    it('should expose the "orm" property', () => {
+    it('should expose the "orm" property on the trailpack', () => {
       assert(pack.orm)
       assert(pack.orm.collections.user)
       assert(pack.orm.collections.role)
+    })
+
+    it('should expose the globalId-indexed "orm" property on "app"', () => {
+      assert(pack.app.orm)
+      assert(pack.app.orm.User)
+      assert(pack.app.orm.Role)
+      assert(pack.app.orm.Role.create)
+      assert(pack.app.orm.Role.find)
     })
 
     it('should be able to query things', () => {
