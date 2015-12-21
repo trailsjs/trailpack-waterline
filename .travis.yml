@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- '4'
+- stable
+
+notifications:
+  email: false
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/54f8a1e753f859f5ca1a
+    on_start: never
+    on_failure: change
+
+deploy:
+  provider: npm
+  email: hello@trailsjs.io
+  api_key:
+    secure: nCFomsKBiOUtKI2wTc1/kmjneuNcTEXysjO+Ejb+4Lafat5XDb5JWeekHI/BeGWLzioDcX419mRuqXJmnPK/ZjdAp9AEeAPy76DlQuc25vG2HaXSuPPEEoR5QXIqQPpDK/QpM9yzNskLhHjWCN14xw8EdM47tWPuWnVJzpYWPvb5+UZm1l+g7FFwsLZozBwS2bkL/+FcRKqxP0rhYTXYY1KYBgbayVV14LmnUwEUBxb4DWkfD85tPwKasrvErg2j5A7/Dfam6TG9xlHE9jfVD39ep2t35WSqIHiw4OP/XOIr2emzvPyc/bUnvjHPiAX9n8izOeOjmJdyLyQavZg4DDX/Zx2NqISYx3czOBMawJhWyOFbTd0Aosg2Qwc0JoOGwkWfIBdnfXErqRvXbqtPKfxbHRdkfG5nZPz1ZqOVKEIycsV6AKUnx+ldawAPis2TEkOt6oXcTBTHhsyd846/M0YDr77NNTIsPzMEgS/NI0ZbMEdYr+YWgB1fl9JJbKkK8NfqqYF3guQoOxizoKH+yfEyMIEWcRyvc39wFNu2LwA9wmcTug5fODKhKd487L7Bx9zRAf/GOcXrjxdU2xrlmvM+e4PkRFvglzItUJOpFaEfhj858vG3mh1YxxFG1czA+yzUxqnatPnNcwE6uqaoQNi4UHLAnOJDGFLXrEpaP7E=
+  on:
+    tags: true
+    repo: trailsjs/trailpack-waterline
+    node: 'stable'
