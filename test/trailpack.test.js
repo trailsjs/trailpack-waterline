@@ -1,19 +1,16 @@
 'use strict'
 
 const assert = require('assert')
-const Pack = require('..')
 
 describe('Trailpack', () => {
+  let pack
+  before(() => {
+    pack = global.app.packs.waterline
+  })
   describe('#validate', () => {
-
+    it.skip('TODO test')
   })
   describe('#configure', () => {
-    let pack
-    beforeEach(() => {
-      pack = new Pack(require('./testapp'))
-      pack.configure()
-    })
-
     it('should load collections', () => {
       assert(pack.wl)
       assert.equal(pack.wl['_collections'].length, 2)
@@ -30,12 +27,6 @@ describe('Trailpack', () => {
     })
   })
   describe('#initialize', () => {
-    let pack
-    before(() => {
-      pack = new Pack(require('./testapp'))
-      pack.configure()
-      return pack.initialize()
-    })
 
     it('should expose the "orm" property on the trailpack', () => {
       assert(pack.orm)
@@ -53,7 +44,7 @@ describe('Trailpack', () => {
 
     it('should be able to query things', () => {
       const Role = pack.orm.collections.role
-      return Role.find().then(results => {
+      return Role.find({ name: 'xyz' }).then(results => {
         assert(results)
         assert.equal(results.length, 0)
       })
@@ -65,12 +56,11 @@ describe('Trailpack', () => {
           assert(role)
           assert.equal(role.name, 'foo')
 
-          return Role.find()
+          return Role.find({ name: 'foo' })
         })
         .then(roles => {
           assert.equal(roles.length, 1)
         })
     })
-
   })
 })

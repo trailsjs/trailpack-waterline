@@ -1,8 +1,15 @@
-module.exports = {
+const _ = require('lodash')
+const smokesignals = require('smokesignals')
+
+module.exports = _.defaultsDeep({
+  pkg: {
+    name: 'waterline-trailpack-test'
+  },
   api: {
     models: {
       User: {
         attributes: {
+          name: 'string',
           roles: {
             collection: 'Role',
             via: 'user'
@@ -11,19 +18,23 @@ module.exports = {
       },
       Role: {
         store: 'storeoverride',
-        migrate: 'drop',
         attributes: {
           name: 'string',
           user: {
-            collection: 'User',
-            via: 'roles',
-            dominant: true
+            model: 'User'
           }
         }
       }
     }
   },
   config: {
+    main: {
+      packs: [
+        smokesignals.Trailpack,
+        require('trailpack-core'),
+        require('../../') // trailpack-waterline
+      ]
+    },
     database: {
       stores: {
         teststore: {
@@ -40,4 +51,5 @@ module.exports = {
       }
     }
   }
-}
+}, smokesignals.FailsafeConfig)
+

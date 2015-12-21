@@ -1,6 +1,6 @@
 const assert = require('assert')
-const app = require('./testapp')
-const lib = require('../lib')
+const app = require('./../testapp')
+const lib = require('../../lib')
 
 describe('lib.Validator', () => {
   describe('#validateDatabaseConfig', () => {

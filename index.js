@@ -14,13 +14,6 @@ const lib = require('./lib')
  * @see {@link https://github.com/balderdashy/sails/blob/master/lib/hooks/orm/build-orm.js}
  */
 module.exports = class WaterlinePack extends Trailpack {
-  constructor (app, config) {
-    super(app, {
-      config: require('./config'),
-      api: require('./api'),
-      pkg: require('./package')
-    })
-  }
 
   /**
    * Validate the database config, and api.model definitions
@@ -36,6 +29,7 @@ module.exports = class WaterlinePack extends Trailpack {
    * Merge configuration into models, load Waterline collections.
    */
   configure () {
+    _.merge(this.app.config, lib.FailsafeConfig)
     this.wl = new Waterline()
     this.models = lib.Transformer.transformModels(this.app)
     this.adapters = lib.Transformer.transformAdapters(this.app)
@@ -63,4 +57,17 @@ module.exports = class WaterlinePack extends Trailpack {
     })
   }
 
+  unload () {
+    return new Promise((resolve, reject) => {
+      this.wl.teardown(resolve)
+    })
+  }
+
+  constructor (app, config) {
+    super(app, {
+      config: require('./config'),
+      pkg: require('./package'),
+      api: require('./api')
+    })
+  }
 }
