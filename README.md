@@ -6,9 +6,13 @@
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
-Loads Application Models (in `api/models`) into the [Waterline](http://waterline.js.org) ORM.
+Loads Application Models (in `api/models`) into the [Waterline](http://waterline.js.org)
+ORM; Integrates with [trailpack-router](https://github.com/trailsjs/trailpack-router) to
+generate Footprints for routes.
 
 ## Usage
+
+### Configure
 
 ```js
 // config/trailpack.js
@@ -17,6 +21,30 @@ module.exports = {
   packs: [
     require('trailpack-waterline')
   ]
+}
+```
+
+### Query
+
+```js
+// api/services/BirthdayService.js
+module.exports = {
+  /**
+   * Finds people with the given birthday.
+   * @return Promise
+   * @example {
+   *    name: 'Ludwig Beethoven',
+   *    birthday: Sun Dec 16 1770 00:00:00 GMT-0500 (EST),
+   *    favoriteColors: [
+   *      { name: 'yellow', hex: 'ffff00' },
+   *      { name: 'black', hex: '000000' }
+   *     ]
+   * }
+   */
+  findPeopleWithBirthday (birthday) {
+    return this.orm.Person.find({ birthday: birthday })
+      .populate('favoriteColors')
+  }
 }
 ```
 
