@@ -32,7 +32,7 @@ module.exports = _.defaultsDeep({
       packs: [
         smokesignals.Trailpack,
         require('trailpack-core'),
-        require('../../') // trailpack-waterline
+        require('../') // trailpack-waterline
       ]
     },
     database: {
@@ -52,4 +52,5 @@ module.exports = _.defaultsDeep({
     }
   }
 }, smokesignals.FailsafeConfig)
+
 

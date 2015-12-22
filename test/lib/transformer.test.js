@@ -1,5 +1,5 @@
 const assert = require('assert')
-const app = require('./../testapp')
+const app = require('../app')
 const lib = require('../../lib')
 
 describe('lib.Transformer', () => {
