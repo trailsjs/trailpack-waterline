@@ -1,7 +1,6 @@
 'use strict'
 
 const TrailsApp = require('trails')
-console.log('asd')
 
 before(() => {
   global.app = new TrailsApp(require('./app'))
