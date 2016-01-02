@@ -32,6 +32,7 @@ module.exports = class WaterlinePack extends Trailpack {
     _.merge(this.app.config, lib.FailsafeConfig)
 
     this.wl = new Waterline()
+    this.app.config.database.orm = 'Waterline'
     this.models = lib.Transformer.transformModels(this.app)
     this.adapters = lib.Transformer.transformAdapters(this.app)
     this.connections = lib.Transformer.transformConnections(this.app)
