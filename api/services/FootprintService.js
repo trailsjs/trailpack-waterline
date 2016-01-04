@@ -35,10 +35,16 @@ const FootprintService = module.exports = {
    */
   find (modelName, criteria, options) {
     const Model = this.orm[modelName] || this.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, _.get(this.config, 'footprints.models.options'), options)
+    const modelOptions = _.defaultsDeep({ }, options, _.get(this.config, 'footprints.models.options'))
     let query
 
-    if (_.isPlainObject(criteria)) {
+    if (!options) {
+      options = { }
+    }
+    if (!_.isPlainObject(criteria) || options.findOne === true) {
+      query = Model.findOne(criteria)
+    }
+    else {
       if (modelOptions.defaultLimit) {
         query = Model.find(_.defaults(criteria, {
           limit: modelOptions.defaultLimit
@@ -48,18 +54,9 @@ const FootprintService = module.exports = {
         query = Model.find(criteria)
       }
     }
-    else {
-      query = Model.findOne(criteria)
-    }
-
-    /*
-    if (modelOptions.populate === true) {
-      query = query.populateAll()
-    }
-    */
 
     _.each(modelOptions.populate, association => {
-      query = query.populate(association.attribute, association.where || { })
+      query = query.populate(association.attribute, association.criteria || { })
     })
 
     return new Promise((resolve, reject) => {
@@ -79,7 +76,7 @@ const FootprintService = module.exports = {
    */
   update (modelName, criteria, values, options) {
     const Model = this.orm[modelName] || this.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, _.get(this.config, 'footprints.models.options'), options)
+    const modelOptions = _.defaultsDeep({ }, options, _.get(this.config, 'footprints.models.options'))
     let query
 
     if (_.isPlainObject(criteria)) {
@@ -93,8 +90,7 @@ const FootprintService = module.exports = {
       }
     }
     else {
-      query = Model.update(criteria, values)
-        .then(results => results[0])
+      query = Model.update(criteria, values).then(results => results[0])
     }
 
     return new Promise((resolve, reject) => {
@@ -111,11 +107,17 @@ const FootprintService = module.exports = {
    */
   destroy (modelName, criteria, options) {
     const Model = this.orm[modelName] || this.packs.waterline.orm.collections[modelName]
+    let query
+
+    if (_.isPlainObject(criteria)) {
+      query = Model.destroy(criteria)
+    }
+    else {
+      query = Model.destroy(criteria).then(results => results[0]) 
+    }
 
     return new Promise((resolve, reject) => {
-      Model.destroy(criteria)
-        .then(resolve)
-        .catch(reject)
+      query.then(resolve).catch(reject)
     })
   },
 
@@ -129,7 +131,8 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   createAssociation (parentModelName, parentId, childAttributeName, values, options) {
-    const childAttribute = this.orm[parentModelName].attributes[childAttributeName]
+    const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
+    const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
     const mergedValues = _.extend({ [childAttribute.via]: parentId }, values)
 
@@ -147,11 +150,33 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   findAssociation (parentModelName, parentId, childAttributeName, criteria, options) {
-    const childAttribute = this.orm[parentModelName].attributes[childAttributeName]
+    const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
+    const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
+    const childModel = this.orm[childModelName] || this.packs.waterline.orm.collections[childModelName]
 
-    return FootprintService.find(childModelName, mergedCriteria, options)
+    if (!_.isPlainObject(criteria)) {
+      criteria = {
+        [childModel.primaryKey]: criteria
+      }
+    }
+
+    // query within the "many" side of the association
+    if (childAttribute.via) {
+      const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
+      return FootprintService.find(childModelName, mergedCriteria, options)
+    }
+    // query the "one" side of the association
+    else {
+      const mergedOptions = _.extend({
+        populate: [{
+          attribute: childAttributeName,
+          criteria: criteria
+        }]
+      }, options)
+      return FootprintService.find(parentModelName, parentId, mergedOptions)
+        .then(parentObject => parentObject[childAttributeName])
+    }
   },
 
   /**
@@ -165,7 +190,8 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   updateAssociation (parentModelName, parentId, childAttributeName, criteria, values, options) {
-    const childAttribute = this.orm[parentModelName].attributes[childAttributeName]
+    const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
+    const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
     const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
 
@@ -183,7 +209,8 @@ const FootprintService = module.exports = {
    * @return Promise
    */
   destroyAssociation (parentModelName, parentId, childAttributeName, childId, options) {
-    const childAttribute = this.orm[parentModelName].attributes[childAttributeName]
+    const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
+    const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
 
     return FootprintService.destroy(childModelName, childId, options)
