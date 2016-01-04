@@ -52,9 +52,11 @@ const FootprintService = module.exports = {
       query = Model.findOne(criteria)
     }
 
+    /*
     if (modelOptions.populate === true) {
       query = query.populateAll()
     }
+    */
 
     _.each(modelOptions.populate, association => {
       query = query.populate(association.attribute, association.where || { })
@@ -67,7 +69,8 @@ const FootprintService = module.exports = {
 
   /**
    * Update an existing model, or models, matched by the given by criteria, with
-   * the given values.
+   * the given values. If the criteria given is the primary key, then return
+   * exactly the object that is updated; otherwise, return an array of objects.
    *
    * @param modelName The name of the model
    * @param criteria The criteria that determine which models are to be updated
@@ -79,13 +82,19 @@ const FootprintService = module.exports = {
     const modelOptions = _.defaultsDeep({ }, _.get(this.config, 'footprints.models.options'), options)
     let query
 
-    if (modelOptions.defaultLimit) {
-      query = Model.update(_.defaults(criteria, {
-        limit: modelOptions.defaultLimit
-      }), values)
+    if (_.isPlainObject(criteria)) {
+      if (modelOptions.defaultLimit) {
+        query = Model.update(_.defaults(criteria, {
+          limit: modelOptions.defaultLimit
+        }), values)
+      }
+      else {
+        query = Model.update(criteria, values)
+      }
     }
     else {
       query = Model.update(criteria, values)
+        .then(results => results[0])
     }
 
     return new Promise((resolve, reject) => {
