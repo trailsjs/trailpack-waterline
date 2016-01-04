@@ -159,6 +159,7 @@ const FootprintService = module.exports = {
       criteria = {
         [childModel.primaryKey]: criteria
       }
+      options = _.defaults({ findOne: true }, options)
     }
 
     // query within the "many" side of the association
@@ -193,9 +194,27 @@ const FootprintService = module.exports = {
     const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
+    const childModel = this.orm[childModelName] || this.packs.waterline.orm.collections[childModelName]
 
-    return FootprintService.update(childModelName, mergedCriteria, values, options)
+    if (!_.isPlainObject(criteria)) {
+      criteria = {
+        [childModel.primaryKey]: criteria
+      }
+      options = _.defaults({ findOne: true }, options)
+    }
+
+    if (childAttribute.via) {
+      const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
+      return FootprintService.update(childModelName, mergedCriteria, values, options)
+    }
+    else {
+      const childValues = { [childAttributeName]: values }
+      return FootprintService.update(parentModelName, parentId, childValues, options)
+        .then(parentObject => {
+          const childId = parentObject[childAttributeName]
+          return FootprintService.find(childModelName, childId)
+        })
+    }
   },
 
   /**
