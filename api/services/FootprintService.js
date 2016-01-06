@@ -176,12 +176,12 @@ const FootprintService = module.exports = {
         }]
       }, options)
       return FootprintService.find(parentModelName, parentId, mergedOptions)
-        .then(parentObject => parentObject[childAttributeName])
+        .then(parentRecord => parentRecord[childAttributeName])
     }
   },
 
   /**
-   * Update a particular model by id, and which is associated with the given
+   * Update models by criteria, and which is associated with the given
    * Parent Model.
    *
    * @param parentModelName The name of the model's parent
@@ -210,16 +210,16 @@ const FootprintService = module.exports = {
     else {
       const childValues = { [childAttributeName]: values }
       return FootprintService.update(parentModelName, parentId, childValues, options)
-        .then(parentObject => {
-          const childId = parentObject[childAttributeName]
+        .then(parentRecord => {
+          const childId = parentRecord[childAttributeName]
           return FootprintService.find(childModelName, childId)
         })
     }
   },
 
   /**
-   * Destroy a particular model by id, and which is associated with the given
-   * Parent Model.
+   * Destroy models by criteria, and which is associated with the
+   * given Parent Model.
    *
    * @param parentModelName The name of the model's parent
    * @param parentId The id (required) of the parent model
@@ -227,12 +227,43 @@ const FootprintService = module.exports = {
    * @param criteria The search criteria
    * @return Promise
    */
-  destroyAssociation (parentModelName, parentId, childAttributeName, childId, options) {
+  destroyAssociation (parentModelName, parentId, childAttributeName, criteria, options) {
     const parentModel = this.orm[parentModelName] || this.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
+    const childModel = this.orm[childModelName] || this.packs.waterline.orm.collections[childModelName]
 
-    return FootprintService.destroy(childModelName, childId, options)
+    if (!_.isPlainObject(criteria)) {
+      criteria = {
+        [childModel.primaryKey]: criteria
+      }
+    }
+
+    // query within the "many" side of the association
+    if (childAttribute.via) {
+      const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
+      return FootprintService.destroy(childModelName, mergedCriteria, options)
+        .then(records => {
+          return _.map(records, record => {
+            return {
+              [childModel.primaryKey]: record[childModel.primaryKey]
+            }
+          })
+        })
+    }
+    // query the "one" side of the association
+    else {
+      return FootprintService
+        .findAssociation(parentModelName, parentId, childAttributeName, criteria, options)
+        .then(record => {
+          return FootprintService.destroy(childModelName, record[childModel.primaryKey])
+        })
+        .then(destroyedRecord => {
+          return {
+            [childModel.primaryKey]: destroyedRecord[childModel.primaryKey]
+          }
+        })
+    }
   }
 }
 
