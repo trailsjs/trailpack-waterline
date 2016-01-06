@@ -113,7 +113,7 @@ const FootprintService = module.exports = {
       query = Model.destroy(criteria)
     }
     else {
-      query = Model.destroy(criteria).then(results => results[0]) 
+      query = Model.destroy(criteria).then(results => results[0])
     }
 
     return new Promise((resolve, reject) => {
