@@ -13,32 +13,39 @@
   "keywords": [
     "trails",
     "trailsjs",
-    "waterline"
+    "trailpack",
+    "waterline",
+    "orm"
   ],
-  "author": "Travis Webb <me@traviswebb.com>",
+  "author": "Trails.js Team <hello@trailsjs.io>",
+  "contributors": [
+    {
+      "name": "Travis Webb",
+      "url": "http://github.com/tjwebb"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/trailsjs/trailpack-waterline/issues"
   },
   "homepage": "https://github.com/trailsjs/trailpack-waterline#readme",
   "devDependencies": {
-    "eslint": "next",
-    "eslint-config-trails": "latest",
+    "eslint": "^2.0.0-alpha-2",
+    "eslint-config-trails": "^1.0.1",
     "mocha": "^2.3.4",
-    "smokesignals": "latest",
-    "trailpack-core": "latest",
-    "trails": "latest",
+    "smokesignals": "0.0.8",
+    "trailpack-core": "0.0.13",
+    "trails": "0.0.18",
     "waterline-sqlite3": "^1.0.1"
   },
   "eslintConfig": {
-    "extends": "trails",
-    "root": true
+    "extends": "trails"
   },
   "dependencies": {
     "hoek": "^3.0.4",
-    "joi": "^7.0.1",
+    "joi": "^7.1.0",
     "lodash": "^3.10.1",
-    "trailpack": "latest",
+    "trailpack": "0.0.18",
     "waterline": "^0.10.28"
   }
 }
