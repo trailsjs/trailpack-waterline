@@ -44,7 +44,7 @@
   "dependencies": {
     "hoek": "^3.0.4",
     "joi": "^7.1.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.0.0",
     "trailpack": "0.0.18",
     "waterline": "^0.10.28"
   }
