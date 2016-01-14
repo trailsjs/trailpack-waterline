@@ -15,7 +15,9 @@
     "trailsjs",
     "trailpack",
     "waterline",
-    "orm"
+    "orm",
+    "datastore",
+    "database"
   ],
   "author": "Trails.js Team <hello@trailsjs.io>",
   "contributors": [
@@ -38,14 +40,14 @@
     "trails": "0.0.24",
     "waterline-sqlite3": "^1.0.1"
   },
-  "eslintConfig": {
-    "extends": "trails"
-  },
   "dependencies": {
     "hoek": "^3.0.4",
     "joi": "^7.1.0",
     "lodash": "^3.10.1",
-    "trailpack": "0.0.18",
+    "trailpack-datastore": "0.0.5",
     "waterline": "^0.10.28"
+  },
+  "eslintConfig": {
+    "extends": "trails"
   }
 }

@@ -5,7 +5,7 @@ const assert = require('assert')
 describe('api.services.FootprintService', () => {
   let FootprintService
   before(() => {
-    FootprintService = global.app.api.services.FootprintService
+    FootprintService = global.app.services.FootprintService
   })
   describe('#create', () => {
     it('should insert a record', () => {
