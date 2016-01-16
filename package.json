@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "hoek": "^3.0.4",
-    "joi": "^7.1.0",
+    "joi": "^7.2.1",
     "lodash": "^3.10.1",
     "trailpack-datastore": "0.0.5",
     "trails-service": "^1.0.0-alpha-1",
