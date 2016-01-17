@@ -45,6 +45,7 @@
     "joi": "^7.1.0",
     "lodash": "^3.10.1",
     "trailpack-datastore": "0.0.5",
+    "trails-controller": "^1.0.0-alpha-1",
     "trails-service": "^1.0.0-alpha-1",
     "waterline": "^0.10.28"
   },
