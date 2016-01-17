@@ -29,6 +29,8 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
    * Merge configuration into models, load Waterline collections.
    */
   configure () {
+    this.app.config.database.orm = 'waterline'
+
     _.merge(this.app.config, lib.FailsafeConfig)
 
     this.wl = new Waterline()
