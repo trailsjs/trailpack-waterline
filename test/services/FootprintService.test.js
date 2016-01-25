@@ -81,7 +81,7 @@ describe('api.services.FootprintService', () => {
   describe('#createAssociation', () => {
     it('should insert an associated record', () => {
       let userId
-      return FootprintService.create('User', { name: 'createassociationtest' })
+      return FootprintService.create('User', { name: 'createassociationtest', password: 'password' })
         .then(user => {
           assert(user)
           assert(user.id)
@@ -145,7 +145,7 @@ describe('api.services.FootprintService', () => {
   describe('#updateAssociation', () => {
     it('should update an associated record', () => {
       let userId
-      return FootprintService.create('User', { name: 'updateassociationtest' })
+      return FootprintService.create('User', { name: 'updateassociationtest', password: 'password' })
         .then(user => {
           assert(user)
           assert(user.id)

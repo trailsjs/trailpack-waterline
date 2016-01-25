@@ -12,11 +12,24 @@ module.exports = _.defaultsDeep({
     models: {
       User: class User extends Model {
         static config () {
-          return { }
+          return {
+            methods: {
+              beforeCreate: function(values, cb){
+                values.password = '#' + values.password
+                cb()
+              },
+              afterCreate: function(values, cb){
+                values.displayName = 'Trails.js user ' + values.name
+                cb()
+              }
+            }
+          }
         }
         static schema () {
           return {
             name: 'string',
+            password: 'string',
+            displayName: 'string',
             roles: {
               collection: 'Role',
               via: 'user'
