@@ -12,18 +12,6 @@ module.exports = _.defaultsDeep({
     models: {
       User: class User extends Model {
         static config () {
-          return {
-            methods: {
-              beforeCreate: function(values, cb){
-                values.password = '#' + values.password
-                cb()
-              },
-              afterCreate: function(values, cb){
-                values.displayName = 'Trails.js user ' + values.name
-                cb()
-              }
-            }
-          }
         }
         static schema () {
           return {
@@ -49,6 +37,127 @@ module.exports = _.defaultsDeep({
             user: {
               model: 'User'
             }
+          }
+        }
+      },
+      BeforeCreate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            beforeCreate: function(values, cb){
+              values.name = values.name + ' beforeCreate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      AfterCreate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            afterCreate: function(values, cb){
+              values.name = values.name + ' afterCreate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      BeforeUpdate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            beforeUpdate: function(values, cb){
+              values.name = values.name + ' beforeUpdate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      AfterUpdate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            afterUpdate: function(values, cb){
+              values.name = values.name + ' afterUpdate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      BeforeValidate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            beforeValidate: function(values, cb){
+              values.name = values.name + ' beforeValidate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      AfterValidate: class BeforeCreate extends Model {
+        static config () {
+          return {
+            afterValidate: function(values, cb){
+              values.name = values.name + ' afterValidate';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      BeforeDestroy: class BeforeCreate extends Model {
+        static config () {
+          return {
+            beforeDestroy: function(values, cb){
+              values.name = values.name + ' beforeDestroy';
+              console.log('"beforeDestroy"')
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
+          }
+        }
+      },
+      AfterDestroy: class BeforeCreate extends Model {
+        static config () {
+          return {
+            afterDestroy: function(values, cb){
+              values.name = values.name + ' afterDestroy';
+              cb()
+            }
+          }
+        }
+        static schema () {
+          return {
+            name: 'string'
           }
         }
       }
