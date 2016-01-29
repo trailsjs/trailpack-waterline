@@ -40,124 +40,50 @@ module.exports = _.defaultsDeep({
           }
         }
       },
-      BeforeCreate: class BeforeCreate extends Model {
+      ModelCallbacks: class ModelCallbacks extends Model {
         static config () {
           return {
             beforeCreate: function(values, cb){
-              values.name = values.name + ' beforeCreate';
+              values.beforeCreate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      AfterCreate: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             afterCreate: function(values, cb){
-              values.name = values.name + ' afterCreate';
+              values.afterCreate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      BeforeUpdate: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             beforeUpdate: function(values, cb){
-              values.name = values.name + ' beforeUpdate';
+              values.beforeUpdate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      AfterUpdate: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             afterUpdate: function(values, cb){
-              values.name = values.name + ' afterUpdate';
+              values.afterUpdate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      BeforeValidate: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             beforeValidate: function(values, cb){
-              values.name = values.name + ' beforeValidate';
+              values.beforeValidate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      AfterValidate: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             afterValidate: function(values, cb){
-              values.name = values.name + ' afterValidate';
+              values.afterValidate += 1;
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      BeforeDestroy: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             beforeDestroy: function(values, cb){
-              values.name = values.name + ' beforeDestroy';
-              console.log('"beforeDestroy"')
               cb()
-            }
-          }
-        }
-        static schema () {
-          return {
-            name: 'string'
-          }
-        }
-      },
-      AfterDestroy: class BeforeCreate extends Model {
-        static config () {
-          return {
+            },
             afterDestroy: function(values, cb){
-              values.name = values.name + ' afterDestroy';
               cb()
             }
           }
         }
         static schema () {
           return {
-            name: 'string'
+            name: 'string',
+            beforeCreate: 'integer',
+            afterCreate: 'integer',
+            beforeUpdate: 'integer',
+            afterUpdate: 'integer',
+            beforeValidate: 'integer',
+            afterValidate: 'integer'
           }
         }
       }
@@ -188,5 +114,3 @@ module.exports = _.defaultsDeep({
     }
   }
 }, smokesignals.FailsafeConfig)
-
-
