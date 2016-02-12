@@ -14,7 +14,7 @@ generate Footprints for routes.
 ### Configure
 
 ```js
-// config/trailpack.js
+// config/main.js
 module.exports = {
   // ...
   packs: [
