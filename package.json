@@ -36,19 +36,19 @@
     "eslint-config-trails": "^1.0.1",
     "mocha": "^2.3.4",
     "smokesignals": "1.0.2",
-    "trailpack-core": "1.0.0-alpha-2",
-    "trails": "1.0.0-alpha-4",
+    "trailpack-core": "1.0.0-beta-1",
+    "trails": "1.0.0-beta-1",
     "trails-model": "^1.0.0-alpha-1",
     "waterline-sqlite3": "^1.0.1"
   },
   "dependencies": {
     "hoek": "^3.0.4",
     "joi": "^7.1.0",
-    "lodash": "^3.10.1",
-    "trailpack-datastore": "0.0.5",
+    "lodash": "^4.3.0",
+    "trailpack-datastore": "1.0.0",
     "trails-controller": "^1.0.0-alpha-1",
     "trails-service": "^1.0.0-alpha-1",
-    "waterline": "^0.10.28"
+    "waterline": "^0.11.0"
   },
   "eslintConfig": {
     "extends": "trails"
