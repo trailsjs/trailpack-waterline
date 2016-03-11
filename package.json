@@ -4,7 +4,7 @@
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
-    "test": "eslint . && mocha"
+    "test": "eslint --fix . && mocha"
   },
   "repository": {
     "type": "git",
@@ -32,22 +32,22 @@
   },
   "homepage": "https://github.com/trailsjs/trailpack-waterline#readme",
   "devDependencies": {
-    "eslint": "^2.0.0-alpha-2",
-    "eslint-config-trails": "^1.0.1",
-    "mocha": "^2.3.4",
+    "eslint": "^2.2.0",
+    "eslint-config-trails": "^1.0.4",
+    "mocha": "^2.4.5",
     "smokesignals": "1.0.2",
-    "trailpack-core": "1.0.0-alpha-2",
-    "trails": "1.0.0-alpha-4",
-    "trails-model": "^1.0.0-alpha-1",
+    "trailpack-core": "1.0.0-beta-3",
+    "trails": "1.0.0-beta-2",
+    "trails-model": "^1.0.0-beta-2",
     "waterline-sqlite3": "^1.0.1"
   },
   "dependencies": {
     "hoek": "^3.0.4",
-    "joi": "^8.0.0",
-    "lodash": "^3.10.1",
-    "trailpack-datastore": "0.0.5",
-    "trails-controller": "^1.0.0-alpha-1",
-    "trails-service": "^1.0.0-alpha-1",
+    "joi": "^8.0.1",
+    "lodash": "^4.6.1",
+    "trailpack-datastore": "1.0.0",
+    "trails-controller": "^1.0.0-beta-2",
+    "trails-service": "^1.0.0-beta-2",
     "waterline": "^0.10.28"
   },
   "eslintConfig": {
