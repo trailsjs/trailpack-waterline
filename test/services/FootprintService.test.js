@@ -145,7 +145,7 @@ describe('api.services.FootprintService', () => {
   describe('#updateAssociation', () => {
     it('should update an associated record', () => {
       let userId
-      return FootprintService.create('User', { name: 'updateassociationtest' })
+      return FootprintService.create('User', { name: 'updateassociationtest'})
         .then(user => {
           assert(user)
           assert(user.id)
