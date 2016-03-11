@@ -5,7 +5,7 @@ const assert = require('assert')
 describe('api.services.FootprintService', () => {
   let FootprintService
   before(() => {
-    FootprintService = global.app.api.services.FootprintService
+    FootprintService = global.app.services.FootprintService
   })
   describe('#create', () => {
     it('should insert a record', () => {
@@ -145,7 +145,7 @@ describe('api.services.FootprintService', () => {
   describe('#updateAssociation', () => {
     it('should update an associated record', () => {
       let userId
-      return FootprintService.create('User', { name: 'updateassociationtest' })
+      return FootprintService.create('User', { name: 'updateassociationtest'})
         .then(user => {
           assert(user)
           assert(user.id)

@@ -6,8 +6,7 @@
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
-Loads Application Models (in `api/models`) into the [Waterline](http://waterline.js.org)
-ORM; Integrates with [trailpack-router](https://github.com/trailsjs/trailpack-router) to
+Loads Application Models (in `api/models`) into the Waterline ORM; Integrates with [trailpack-router](https://github.com/trailsjs/trailpack-router) to
 generate Footprints for routes.
 
 ## Usage
@@ -15,7 +14,7 @@ generate Footprints for routes.
 ### Configure
 
 ```js
-// config/trailpack.js
+// config/main.js
 module.exports = {
   // ...
   packs: [

@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const Trailpack = require('trailpack')
+const DatastoreTrailpack = require('trailpack-datastore')
 const Waterline = require('waterline')
 const lib = require('./lib')
 
@@ -13,7 +13,7 @@ const lib = require('./lib')
  *
  * @see {@link https://github.com/balderdashy/sails/blob/master/lib/hooks/orm/build-orm.js}
  */
-module.exports = class WaterlinePack extends Trailpack {
+module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
 
   /**
    * Validate the database config, and api.model definitions
@@ -29,17 +29,11 @@ module.exports = class WaterlinePack extends Trailpack {
    * Merge configuration into models, load Waterline collections.
    */
   configure () {
+    this.app.config.database.orm = 'waterline'
+
     _.merge(this.app.config, lib.FailsafeConfig)
 
     this.wl = new Waterline()
-    this.app.config.database.orm = 'Waterline'
-    this.models = lib.Transformer.transformModels(this.app)
-    this.adapters = lib.Transformer.transformAdapters(this.app)
-    this.connections = lib.Transformer.transformConnections(this.app)
-
-    _.map(this.models, model => {
-      this.wl.loadCollection(Waterline.Collection.extend(model))
-    })
   }
 
   /**
@@ -47,6 +41,14 @@ module.exports = class WaterlinePack extends Trailpack {
    * database.
    */
   initialize () {
+    this.models = lib.Transformer.transformModels(this.app)
+    this.adapters = lib.Transformer.transformAdapters(this.app)
+    this.connections = lib.Transformer.transformConnections(this.app)
+
+    _.map(this.models, model => {
+      this.wl.loadCollection(Waterline.Collection.extend(model))
+    })
+
     const wlConfig = { adapters: this.adapters, connections: this.connections }
     return new Promise((resolve, reject) => {
       this.wl.initialize(wlConfig, (err, orm) => {
@@ -65,7 +67,7 @@ module.exports = class WaterlinePack extends Trailpack {
     })
   }
 
-  constructor (app, config) {
+  constructor (app) {
     super(app, {
       config: require('./config'),
       pkg: require('./package'),

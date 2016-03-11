@@ -13,7 +13,7 @@ describe('Trailpack', () => {
   describe('#configure', () => {
     it('should load collections', () => {
       assert(pack.wl)
-      assert.equal(pack.wl['_collections'].length, 2)
+      assert.equal(pack.wl['_collections'].length, 3)
     })
     it('should load and transform models', () => {
       assert(pack.models)
