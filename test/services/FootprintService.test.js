@@ -59,6 +59,23 @@ describe('api.services.FootprintService', () => {
           assert.equal(roles[0].name, 'updated')
         })
     })
+
+    it('should update a single record and return it as an object', () => {
+      return FootprintService.create('Role', { name: 'updatetest' })
+        .then(role => {
+          assert.equal(role.name, 'updatetest')
+          assert(role.id)
+          return FootprintService.update(
+            'Role',
+            role.id,
+            { name: 'updated' }
+          )
+        })
+        .then(role => {
+          assert(role)
+          assert.equal(role.name, 'updated')
+        })
+    })
   })
   describe('#destroy', () => {
     it('should delete a set of records', () => {
@@ -71,6 +88,23 @@ describe('api.services.FootprintService', () => {
         .then(roles => {
           assert(roles[0])
           assert.equal(roles[0].name, 'destroytest')
+          return FootprintService.find('Role', { name: 'destroytest' })
+        })
+        .then(roles => {
+          assert.equal(roles.length, 0)
+        })
+    })
+
+    it('should delete a single record and return it as an object', () => {
+      return FootprintService.create('Role', { name: 'destroytest' })
+        .then(role => {
+          assert.equal(role.name, 'destroytest')
+          assert(role.id)
+          return FootprintService.destroy('Role', role.id)
+        })
+        .then(role => {
+          assert(role)
+          assert.equal(role.name, 'destroytest')
           return FootprintService.find('Role', { name: 'destroytest' })
         })
         .then(roles => {
