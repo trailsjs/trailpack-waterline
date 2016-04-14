@@ -48,7 +48,7 @@
     "trailpack-datastore": "1.0.0",
     "trails-controller": "^1.0.0-beta-2",
     "trails-service": "^1.0.0-beta-2",
-    "waterline": "^0.10.28"
+    "waterline": "^0.12.1"
   },
   "eslintConfig": {
     "extends": "trails"
