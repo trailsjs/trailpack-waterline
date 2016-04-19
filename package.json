@@ -35,7 +35,7 @@
     "eslint": "^2.5.1",
     "eslint-config-trails": "^1.0.4",
     "mocha": "^2.4.5",
-    "smokesignals": "1.0.3",
+    "smokesignals": "1.0.6",
     "trailpack-core": "1.0.0-beta-3",
     "trails": "1.0.0-beta-2",
     "trails-model": "^1.0.0-beta-2",
