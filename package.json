@@ -42,7 +42,7 @@
     "waterline-sqlite3": "^1.0.1"
   },
   "dependencies": {
-    "hoek": "^3.0.4",
+    "hoek": "^4.0.0",
     "joi": "^8.0.1",
     "lodash": "^4.6.1",
     "trailpack-datastore": "1.0.0",
