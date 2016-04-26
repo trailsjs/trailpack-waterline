@@ -21,9 +21,7 @@ module.exports = class FootprintService extends Service {
   create (modelName, values, options) {
     const Model = this.app.orm[modelName] || this.app.packs.waterline.orm.collections[modelName]
 
-    return new Promise((resolve, reject) => {
-      Model.create(values).then(resolve).catch(reject)
-    })
+    return Model.create(values)
   }
 
   /**
@@ -70,9 +68,7 @@ module.exports = class FootprintService extends Service {
       })
     }
 
-    return new Promise((resolve, reject) => {
-      query.then(resolve).catch(reject)
-    })
+    return query
   }
 
   /**
@@ -104,9 +100,7 @@ module.exports = class FootprintService extends Service {
       query = Model.update(criteria, values).then(results => results[0])
     }
 
-    return new Promise((resolve, reject) => {
-      query.then(resolve).catch(reject)
-    })
+    return query
   }
 
   /*
@@ -127,9 +121,7 @@ module.exports = class FootprintService extends Service {
       query = Model.destroy(criteria).then(results => results[0])
     }
 
-    return new Promise((resolve, reject) => {
-      query.then(resolve).catch(reject)
-    })
+    return query
   }
 
   /**
@@ -178,17 +170,16 @@ module.exports = class FootprintService extends Service {
       const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
       return this.find(childModelName, mergedCriteria, options)
     }
+
     // query the "one" side of the association
-    else {
-      const mergedOptions = _.extend({
-        populate: [{
-          attribute: childAttributeName,
-          criteria: criteria
-        }]
-      }, options)
-      return this.find(parentModelName, parentId, mergedOptions)
-        .then(parentRecord => parentRecord[childAttributeName])
-    }
+    const mergedOptions = _.extend({
+      populate: [{
+        attribute: childAttributeName,
+        criteria: criteria
+      }]
+    }, options)
+    return this.find(parentModelName, parentId, mergedOptions)
+      .then(parentRecord => parentRecord[childAttributeName])
   }
 
   /**
@@ -218,14 +209,13 @@ module.exports = class FootprintService extends Service {
       const mergedCriteria = _.extend({ [childAttribute.via]: parentId }, criteria)
       return this.update(childModelName, mergedCriteria, values, options)
     }
-    else {
-      const childValues = { [childAttributeName]: values }
-      return this.update(parentModelName, parentId, childValues, options)
-        .then(parentRecord => {
-          const childId = parentRecord[childAttributeName]
-          return this.find(childModelName, childId)
-        })
-    }
+
+    const childValues = { [childAttributeName]: values }
+    return this.update(parentModelName, parentId, childValues, options)
+      .then(parentRecord => {
+        const childId = parentRecord[childAttributeName]
+        return this.find(childModelName, childId)
+      })
   }
 
   /**
@@ -262,19 +252,17 @@ module.exports = class FootprintService extends Service {
           })
         })
     }
+
     // query the "one" side of the association
-    else {
-      return this
-        .findAssociation(parentModelName, parentId, childAttributeName, criteria, options)
-        .then(record => {
-          return this.destroy(childModelName, record[childModel.primaryKey])
-        })
-        .then(destroyedRecord => {
-          return {
-            [childModel.primaryKey]: destroyedRecord[childModel.primaryKey]
-          }
-        })
-    }
+    return this
+      .findAssociation(parentModelName, parentId, childAttributeName, criteria, options)
+      .then(record => {
+        return this.destroy(childModelName, record[childModel.primaryKey])
+      })
+      .then(destroyedRecord => {
+        return {
+          [childModel.primaryKey]: destroyedRecord[childModel.primaryKey]
+        }
+      })
   }
 }
-
