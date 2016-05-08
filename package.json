@@ -44,7 +44,7 @@
   "dependencies": {
     "hoek": "^4.0.0",
     "joi": "^8.0.1",
-    "lodash": "^4.6.1",
+    "lodash": "^4.12.0",
     "trailpack-datastore": "1.0.0",
     "trails-controller": "^1.0.0-beta-2",
     "trails-service": "^1.0.0-beta-2",
