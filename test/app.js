@@ -44,27 +44,27 @@ module.exports = _.defaultsDeep({
         static config () {
           return {
             beforeCreate: function(values, cb){
-              values.beforeCreate += 1;
+              values.beforeCreate += 1
               cb()
             },
             afterCreate: function(values, cb){
-              values.afterCreate += 1;
+              values.afterCreate += 1
               cb()
             },
             beforeUpdate: function(values, cb){
-              values.beforeUpdate += 1;
+              values.beforeUpdate += 1
               cb()
             },
             afterUpdate: function(values, cb){
-              values.afterUpdate += 1;
+              values.afterUpdate += 1
               cb()
             },
             beforeValidate: function(values, cb){
-              values.beforeValidate += 1;
+              values.beforeValidate += 1
               cb()
             },
             afterValidate: function(values, cb){
-              values.afterValidate += 1;
+              values.afterValidate += 1
               cb()
             },
             beforeDestroy: function(values, cb){
@@ -100,10 +100,10 @@ module.exports = _.defaultsDeep({
     database: {
       stores: {
         teststore: {
-          adapter: require('waterline-sqlite3')
+          adapter: require('sails-disk')
         },
         storeoverride: {
-          adapter: require('waterline-sqlite3'),
+          adapter: require('sails-disk'),
           otherConfig: true
         }
       },
