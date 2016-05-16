@@ -100,10 +100,10 @@ module.exports = _.defaultsDeep({
     database: {
       stores: {
         teststore: {
-          adapter: require('waterline-sqlite3')
+          adapter: require('sails-disk')
         },
         storeoverride: {
-          adapter: require('waterline-sqlite3'),
+          adapter: require('sails-disk'),
           otherConfig: true
         }
       },
