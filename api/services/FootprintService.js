@@ -55,18 +55,16 @@ module.exports = class FootprintService extends Service {
     }
 
     if (_.isString(modelOptions.populate)) {
-      query = query.populate(modelOptions.populate)
+      modelOptions.populate = modelOptions.populate.split(/,/)
     }
-    else {
-      _.each(modelOptions.populate, association => {
-        if (_.isString(association)) {
-          query = query.populate(association)
-        }
-        else {
-          query = query.populate(association.attribute, association.criteria || { })
-        }
-      })
-    }
+    _.each(modelOptions.populate, association => {
+      if (_.isString(association)) {
+        query = query.populate(association)
+      }
+      else {
+        query = query.populate(association.attribute, association.criteria || { })
+      }
+    })
 
     return query
   }
