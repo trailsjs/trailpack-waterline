@@ -34,7 +34,7 @@ module.exports = class FootprintService extends Service {
    */
   find (modelName, criteria, options) {
     const Model = this.app.orm[modelName] || this.app.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, options, _.get(this.config, 'footprints.models.options'))
+    const modelOptions = _.defaultsDeep({ }, options, _.get(this.app.config, 'footprints.models.options'))
     let query
 
     if (!options) {
@@ -83,7 +83,7 @@ module.exports = class FootprintService extends Service {
    */
   update (modelName, criteria, values, options) {
     const Model = this.app.orm[modelName] || this.app.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, options, _.get(this.config, 'footprints.models.options'))
+    const modelOptions = _.defaultsDeep({ }, options, _.get(this.app.config, 'footprints.models.options'))
     let query
 
     if (_.isPlainObject(criteria)) {
