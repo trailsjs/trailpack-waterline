@@ -34,7 +34,8 @@ module.exports = class FootprintService extends Service {
    */
   find (modelName, criteria, options) {
     const Model = this.app.orm[modelName] || this.app.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, options, _.get(this.app.config, 'footprints.models.options'))
+    const modelOptions = _.defaultsDeep({ }, options,
+        _.get(this.app.config, 'footprints.models.options'))
     let query
 
     if (!options) {
@@ -44,13 +45,13 @@ module.exports = class FootprintService extends Service {
       query = Model.findOne(criteria)
     }
     else {
-      if (modelOptions.defaultLimit) {
+      if (modelOptions.defaultLimit && options.limit === undefined) {
         query = Model.find(_.defaults(criteria, {
           limit: modelOptions.defaultLimit
         }))
       }
       else {
-        query = Model.find(criteria)
+        query = Model.find(criteria, options)
       }
     }
 
@@ -83,13 +84,15 @@ module.exports = class FootprintService extends Service {
    */
   update (modelName, criteria, values, options) {
     const Model = this.app.orm[modelName] || this.app.packs.waterline.orm.collections[modelName]
-    const modelOptions = _.defaultsDeep({ }, options, _.get(this.app.config, 'footprints.models.options'))
     let query
 
+    if (!options) {
+      options = { }
+    }
     if (_.isPlainObject(criteria)) {
-      if (modelOptions.defaultLimit) {
+      if (options.limit !== undefined) {
         query = Model.update(_.defaults(criteria, {
-          limit: modelOptions.defaultLimit
+          limit: options.limit
         }), values)
       }
       else {
@@ -134,7 +137,8 @@ module.exports = class FootprintService extends Service {
    * @return Promise
    */
   createAssociation (parentModelName, parentId, childAttributeName, values, options) {
-    const parentModel = this.app.orm[parentModelName] || this.app.packs.waterline.orm.collections[parentModelName]
+    const parentModel = this.app.orm[parentModelName] ||
+        this.app.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
     const mergedValues = _.extend({ [childAttribute.via]: parentId }, values)
@@ -153,10 +157,12 @@ module.exports = class FootprintService extends Service {
    * @return Promise
    */
   findAssociation (parentModelName, parentId, childAttributeName, criteria, options) {
-    const parentModel = this.app.orm[parentModelName] || this.app.packs.waterline.orm.collections[parentModelName]
+    const parentModel = this.app.orm[parentModelName] ||
+        this.app.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const childModel = this.app.orm[childModelName] || this.app.packs.waterline.orm.collections[childModelName]
+    const childModel = this.app.orm[childModelName] ||
+        this.app.packs.waterline.orm.collections[childModelName]
 
     if (!_.isPlainObject(criteria)) {
       criteria = {
@@ -193,10 +199,12 @@ module.exports = class FootprintService extends Service {
    * @return Promise
    */
   updateAssociation (parentModelName, parentId, childAttributeName, criteria, values, options) {
-    const parentModel = this.app.orm[parentModelName] || this.app.packs.waterline.orm.collections[parentModelName]
+    const parentModel = this.app.orm[parentModelName] ||
+        this.app.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const childModel = this.app.orm[childModelName] || this.app.packs.waterline.orm.collections[childModelName]
+    const childModel = this.app.orm[childModelName] ||
+        this.app.packs.waterline.orm.collections[childModelName]
 
     if (!_.isPlainObject(criteria)) {
       criteria = {
@@ -229,10 +237,12 @@ module.exports = class FootprintService extends Service {
    * @return Promise
    */
   destroyAssociation (parentModelName, parentId, childAttributeName, criteria, options) {
-    const parentModel = this.app.orm[parentModelName] || this.app.packs.waterline.orm.collections[parentModelName]
+    const parentModel = this.app.orm[parentModelName] ||
+        this.app.packs.waterline.orm.collections[parentModelName]
     const childAttribute = parentModel.attributes[childAttributeName]
     const childModelName = childAttribute.model || childAttribute.collection
-    const childModel = this.app.orm[childModelName] || this.app.packs.waterline.orm.collections[childModelName]
+    const childModel = this.app.orm[childModelName] ||
+        this.app.packs.waterline.orm.collections[childModelName]
 
     if (!_.isPlainObject(criteria)) {
       criteria = {
