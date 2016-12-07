@@ -29,8 +29,8 @@ describe('lib.Transformer', () => {
     it('should transform adapters correctly', () => {
       const adapters = lib.Transformer.transformAdapters(global.app)
 
-      assert(adapters['sails-disk'])
-      assert(adapters['sails-disk'].registerConnection)
+      assert(adapters['waterline-sqlite3'])
+      assert(adapters['waterline-sqlite3'].registerConnection)
     })
   })
 
@@ -39,7 +39,7 @@ describe('lib.Transformer', () => {
       const connections = lib.Transformer.transformConnections(global.app)
 
       assert(connections.teststore)
-      assert.equal(connections.storeoverride.adapter, 'sails-disk')
+      assert.equal(connections.storeoverride.adapter, 'waterline-sqlite3')
     })
   })
 
