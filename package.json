@@ -17,7 +17,8 @@
     "waterline",
     "orm",
     "datastore",
-    "database"
+    "database",
+    "sails"
   ],
   "author": "Trails.js Team <hello@trailsjs.io>",
   "contributors": [
@@ -31,24 +32,20 @@
     "url": "https://github.com/trailsjs/trailpack-waterline/issues"
   },
   "homepage": "https://github.com/trailsjs/trailpack-waterline#readme",
-  "devDependencies": {
-    "eslint": "^2.5.1",
-    "eslint-config-trails": "^1.0.4",
-    "mocha": "^2.4.5",
-    "smokesignals": "^1.0.9",
-    "trailpack-core": "^1.0.0-beta-3",
-    "trails": "^1.0.0-beta-2",
-    "trails-model": "^1.0.0-beta-2",
-    "waterline-sqlite3": "^1.0.1"
-  },
   "dependencies": {
     "hoek": "^4.0.0",
-    "joi": "^8.0.1",
-    "lodash": "^4.6.1",
-    "trailpack-datastore": "^1.0.0",
-    "trails-controller": "^1.0.0-beta-2",
-    "trails-service": "^1.0.0-beta-2",
+    "joi": "^10.0.5",
+    "lodash": "^4.17.2",
+    "trailpack": "^2.0.0-rc1",
     "waterline": "^0.12.1"
+  },
+  "devDependencies": {
+    "eslint": "^2.5.1",
+    "eslint-config-trails": "^2",
+    "mocha": "^2.4.5",
+    "smokesignals": "v2-latest",
+    "trails": "v2-latest",
+    "waterline-sqlite3": "^1.0.1"
   },
   "eslintConfig": {
     "extends": "trails"

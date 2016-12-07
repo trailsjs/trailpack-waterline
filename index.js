@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const DatastoreTrailpack = require('trailpack-datastore')
+const DatastoreTrailpack = require('trailpack/datastore')
 const Waterline = require('waterline')
 const lib = require('./lib')
 
