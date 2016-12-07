@@ -1,10 +1,10 @@
 {
   "name": "trailpack-waterline",
-  "version": "1.0.0-alpha-6",
+  "version": "1.0.0-beta-1",
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
-    "test": "eslint --fix . && mocha"
+    "test": "eslint . && mocha"
   },
   "repository": {
     "type": "git",
