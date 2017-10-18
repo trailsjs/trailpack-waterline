@@ -1,6 +1,6 @@
 {
   "name": "trailpack-waterline",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "mocha": "^2.4.5",
     "smokesignals": "v2-latest",
     "trails": "v2-latest",
-    "waterline-sqlite3": "^1.0.3"
+    "waterline-sqlite3": "1.0.3"
   },
   "eslintConfig": {
     "extends": "trails"
