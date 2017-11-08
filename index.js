@@ -14,7 +14,7 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
    */
   validate () {
     return Promise.all([
-      lib.Validator.validateDatabaseConfig(this.app.config.database),
+      lib.Validator.validateDatabaseConfig(this.app.config.stores),
       //lib.Validator.validateModels(this.app.api.models)
     ])
   }
