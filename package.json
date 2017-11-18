@@ -42,7 +42,7 @@
   "devDependencies": {
     "eslint": "^3.17.1",
     "eslint-config-trails": "^3",
-    "mocha": "^2.4.5",
+    "mocha": "^4",
     "smokesignals": "^2.1.1",
     "trails": "^3",
     "waterline-sqlite3": "1.0.3"
