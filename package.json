@@ -1,6 +1,6 @@
 {
   "name": "trailpack-waterline",
-  "version": "2.0.1",
+  "version": "3.0.1",
   "description": "Waterline Trailpack",
   "main": "index.js",
   "scripts": {
@@ -36,21 +36,18 @@
     "hoek": "^4.0.0",
     "joi": "^10.0.5",
     "lodash": "^4.17.2",
-    "trailpack": "^2.1.2",
+    "trailpack": "^3",
     "waterline": "^0.12.1"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
-    "eslint-config-trails": "^2.0.8",
-    "mocha": "^2.4.5",
+    "eslint-config-trails": "^3",
+    "mocha": "^4",
     "smokesignals": "^2.1.1",
-    "trails": "^2.0.2",
+    "trails": "^3",
     "waterline-sqlite3": "1.0.3"
   },
   "eslintConfig": {
     "extends": "trails"
-  },
-  "publishConfig": {
-    "tag": "next"
   }
 }

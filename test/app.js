@@ -1,8 +1,6 @@
-'use strict'
-
 const _ = require('lodash')
 const smokesignals = require('smokesignals')
-const Model = require('trails/model')
+const Model = require('trails/lib/Model')
 
 module.exports = _.defaultsDeep({
   pkg: {
@@ -12,6 +10,9 @@ module.exports = _.defaultsDeep({
     models: {
       User: class User extends Model {
         static config () {
+          return {
+            store: 'teststore'
+          }
         }
         static schema () {
           return {
@@ -43,6 +44,7 @@ module.exports = _.defaultsDeep({
       ModelCallbacks: class ModelCallbacks extends Model {
         static config () {
           return {
+            store: 'teststore',
             beforeCreate: function(values, cb){
               values.beforeCreate += 1
               cb()
@@ -95,18 +97,14 @@ module.exports = _.defaultsDeep({
         require('../') // trailpack-waterline
       ]
     },
-    database: {
-      stores: {
-        teststore: {
-          adapter: require('waterline-sqlite3')
-        },
-        storeoverride: {
-          adapter: require('waterline-sqlite3'),
-          otherConfig: true
-        }
+    stores: {
+      teststore: {
+        adapter: require('waterline-sqlite3'),
+        migrate: 'drop'
       },
-      models: {
-        defaultStore: 'teststore',
+      storeoverride: {
+        adapter: require('waterline-sqlite3'),
+        otherConfig: true,
         migrate: 'drop'
       }
     }

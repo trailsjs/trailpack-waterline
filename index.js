@@ -1,6 +1,3 @@
-'use strict'
-
-const _ = require('lodash')
 const DatastoreTrailpack = require('trailpack/datastore')
 const Waterline = require('waterline')
 const lib = require('./lib')
@@ -8,10 +5,7 @@ const lib = require('./lib')
 /**
  * Waterline Trailpack
  *
- * Allow the trails application to interface with the Waterline ORM. Similar to
- * the Sails "orm" hook, but cleaner and less crazy.
- *
- * @see {@link https://github.com/balderdashy/sails/blob/master/lib/hooks/orm/build-orm.js}
+ * Allow the trails application to interface with the Waterline ORM.
  */
 module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
 
@@ -20,7 +14,7 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
    */
   validate () {
     return Promise.all([
-      lib.Validator.validateDatabaseConfig(this.app.config.database)
+      lib.Validator.validateDatabaseConfig(this.app.config.stores),
       //lib.Validator.validateModels(this.app.api.models)
     ])
   }
@@ -29,10 +23,6 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
    * Merge configuration into models, load Waterline collections.
    */
   configure () {
-    this.app.config.database.orm = 'waterline'
-
-    _.merge(this.app.config, lib.FailsafeConfig)
-
     this.wl = new Waterline()
   }
 
@@ -45,7 +35,7 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
     this.adapters = lib.Transformer.transformAdapters(this.app)
     this.connections = lib.Transformer.transformConnections(this.app)
 
-    _.map(this.models, model => {
+    Object.values(this.models).map(model => {
       this.wl.loadCollection(Waterline.Collection.extend(model))
     })
 
@@ -75,4 +65,3 @@ module.exports = class WaterlineTrailpack extends DatastoreTrailpack {
     })
   }
 }
-
